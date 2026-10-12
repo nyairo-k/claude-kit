@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# kit: one command for the whole Claude Code kit.
+#   kit fetch  ...      search online and save items into the library   (bin/fetch.sh)
+#   kit new    ...      set up a project from the template + library    (bin/new-project.sh)
+#   kit link   ...      make library items available in every project   (bin/link-global.sh)
+#   kit list            what's in the library
+#   kit update          update bin/ and template/ from the source (your library is left alone)
+#   kit where           print the kit folder
+set -euo pipefail
+here="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
+cmd="${1:-help}"; shift || true
+case "$cmd" in
+  fetch)  exec "$here/bin/fetch.sh" "$@" ;;
+  new)    exec "$here/bin/new-project.sh" "$@" ;;
+  link)   exec "$here/bin/link-global.sh" "$@" ;;
+  list)   exec "$here/bin/fetch.sh" list ;;
+  where)  echo "$here" ;;
+  update) KIT_DIR="$here" KIT_UPDATE=1 bash "$here/install.sh" ;;
+  *)      sed -n '2,9p' "$0" | sed 's/^# \{0,1\}//' ;;
+esac

@@ -1,0 +1,8 @@
+# Claude Code personal / generated
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/worktrees/
+
+# secrets
+.env
+.env.*
